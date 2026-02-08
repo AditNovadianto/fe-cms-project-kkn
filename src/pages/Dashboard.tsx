@@ -1,4 +1,4 @@
-import { Flag, House, Landmark, Map, SquareDashed, Users } from "lucide-react";
+import { Flag, House, Landmark, Map, SquareDashed, TrendingUp, Users } from "lucide-react";
 import { useState } from "react";
 import Beranda from "../components/Beranda";
 import Demografi from "../components/Demografi";
@@ -9,6 +9,7 @@ import PetaWilayah from "../components/PetaWilayah";
 import VisiMisi from "../components/VisiMisi";
 import BatasWilayah from "../components/BatasWilayah";
 import Pemerintahan from "../components/Pemerintahan";
+import Potensi from "../components/Potensi";
 
 const menus = [
     {
@@ -34,6 +35,10 @@ const menus = [
     {
         name: "Pemerintahan",
         icon: <Landmark />
+    },
+    {
+        name: "Potensi",
+        icon: <TrendingUp />
     }
 ];
 
@@ -93,6 +98,7 @@ const Dashboard = () => {
                 {section === "Visi & Misi" && <VisiMisi />}
                 {section === "Batas Wilayah" && <BatasWilayah />}
                 {section === "Pemerintahan" && <Pemerintahan />}
+                {section === "Potensi" && <Potensi />}
             </main>
         </div>
     );
