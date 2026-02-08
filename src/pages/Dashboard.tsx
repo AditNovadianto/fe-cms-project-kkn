@@ -5,6 +5,7 @@ import Demografi from "../components/Demografi";
 import Navbar from "../components/Navbar";
 import smallLogo from "../images/icon-logo.png"
 import bigLogo from "../images/logo.png"
+import PetaWilayah from "../components/petaWilayah";
 
 const menus = [
     {
@@ -81,10 +82,7 @@ const Dashboard = () => {
 
                 {section === "Beranda" && <Beranda />}
                 {section === "Demografi" && <Demografi />}
-                {/* <h1 className="text-2xl font-bold mb-4">{section}</h1>
-                <div className="border rounded p-4">
-                    Content {section}
-                </div> */}
+                {section === "Peta Wilayah" && <PetaWilayah />}
             </main>
         </div>
     );

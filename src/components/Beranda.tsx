@@ -331,13 +331,14 @@ const Beranda = () => {
                                 type="file"
                                 accept="image/*"
                                 onChange={handleImageChange}
-                                className="mt-2 border p-2 rounded-lg"
+                                className="w-full mt-2 border p-2 rounded-lg"
                             />
                         </div>
 
                         {/* ALT TEXT */}
                         <div>
                             <p className="font-semibold">Alt Text</p>
+
                             <input
                                 value={imageAlt}
                                 onChange={(e) => setImageAlt(e.target.value)}

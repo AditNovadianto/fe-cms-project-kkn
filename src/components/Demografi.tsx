@@ -116,6 +116,8 @@ const Demografi = () => {
         }
     };
 
+    console.log(demografi)
+
     return (
         <div>
             <div className="border rounded-lg p-6 mb-6">
