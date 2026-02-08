@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import Navbar from "./Navbar"
+import { isTokenExpired } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 type BerandaType = {
     heroImage: { url: string; alt: string };
@@ -30,6 +31,20 @@ const Beranda = () => {
     const [preview, setPreview] = useState<string | null>(null);
     const [user, setUser] = useState<UserType | null>(null);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+
+        if (isTokenExpired(String(token))) {
+            sessionStorage.removeItem("token");
+            localStorage.removeItem("user");
+
+            navigate("/");
+        }
+
+    }, [navigate]);
 
     useEffect(() => {
         const item = localStorage.getItem("user");
@@ -159,8 +174,6 @@ const Beranda = () => {
 
     return (
         <div>
-            <Navbar section={'Beranda'} />
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 {/* IMAGE */}
                 <div className="rounded-lg overflow-hidden border">

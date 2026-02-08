@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { isTokenExpired } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 type NavbarProps = {
@@ -15,17 +14,6 @@ const Navbar: React.FC<NavbarProps> = ({ section }) => {
 
     const navigate = useNavigate();
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const token = sessionStorage.getItem("token");
-
-        if (isTokenExpired(String(token))) {
-            sessionStorage.removeItem("token");
-            localStorage.removeItem("user");
-
-            navigate("/");
-        }
-    }, [navigate]);
 
     useEffect(() => {
         const item = localStorage.getItem("user");
