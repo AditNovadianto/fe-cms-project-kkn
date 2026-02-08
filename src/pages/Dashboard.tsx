@@ -1,13 +1,14 @@
-import { Flag, House, Map, SquareDashed, Users } from "lucide-react";
+import { Flag, House, Landmark, Map, SquareDashed, Users } from "lucide-react";
 import { useState } from "react";
 import Beranda from "../components/Beranda";
 import Demografi from "../components/Demografi";
 import Navbar from "../components/Navbar";
 import smallLogo from "../images/icon-logo.png"
 import bigLogo from "../images/logo.png"
-import PetaWilayah from "../components/petaWilayah";
+import PetaWilayah from "../components/PetaWilayah";
 import VisiMisi from "../components/VisiMisi";
 import BatasWilayah from "../components/BatasWilayah";
+import Pemerintahan from "../components/Pemerintahan";
 
 const menus = [
     {
@@ -29,6 +30,10 @@ const menus = [
     {
         name: "Batas Wilayah",
         icon: <SquareDashed />
+    },
+    {
+        name: "Pemerintahan",
+        icon: <Landmark />
     }
 ];
 
@@ -87,6 +92,7 @@ const Dashboard = () => {
                 {section === "Peta Wilayah" && <PetaWilayah />}
                 {section === "Visi & Misi" && <VisiMisi />}
                 {section === "Batas Wilayah" && <BatasWilayah />}
+                {section === "Pemerintahan" && <Pemerintahan />}
             </main>
         </div>
     );
