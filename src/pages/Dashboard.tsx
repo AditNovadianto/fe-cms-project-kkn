@@ -7,6 +7,7 @@ import smallLogo from "../images/icon-logo.png"
 import bigLogo from "../images/logo.png"
 import PetaWilayah from "../components/petaWilayah";
 import VisiMisi from "../components/VisiMisi";
+import BatasWilayah from "../components/BatasWilayah";
 
 const menus = [
     {
@@ -85,6 +86,7 @@ const Dashboard = () => {
                 {section === "Demografi" && <Demografi />}
                 {section === "Peta Wilayah" && <PetaWilayah />}
                 {section === "Visi & Misi" && <VisiMisi />}
+                {section === "Batas Wilayah" && <BatasWilayah />}
             </main>
         </div>
     );
