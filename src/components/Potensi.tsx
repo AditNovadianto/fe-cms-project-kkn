@@ -157,7 +157,7 @@ const Potensi = () => {
 
             <button
                 onClick={() => setIsEdit(true)}
-                className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
+                className="cursor-pointer w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
             >
                 Edit Potensi Desa
             </button>
@@ -189,7 +189,7 @@ const Potensi = () => {
 
                                 <button
                                     onClick={() => handleRemoveItem(idx)}
-                                    className="text-red-600 text-sm font-medium"
+                                    className="cursor-pointer text-red-600 text-sm font-medium"
                                 >
                                     Hapus Potensi
                                 </button>
@@ -198,7 +198,7 @@ const Potensi = () => {
 
                         <button
                             onClick={handleAddItem}
-                            className="w-full py-2 text-blue-500 text-left text-sm font-medium"
+                            className="cursor-pointer w-full py-2 text-blue-500 text-left text-sm font-medium"
                         >
                             + Tambah Potensi
                         </button>
@@ -206,7 +206,7 @@ const Potensi = () => {
                         <div className="flex justify-end gap-2 pt-3">
                             <button
                                 onClick={() => setIsEdit(false)}
-                                className="px-4 py-2 border rounded"
+                                className="cursor-pointer px-4 py-2 border rounded"
                             >
                                 Batal
                             </button>
@@ -214,7 +214,7 @@ const Potensi = () => {
                             <button
                                 onClick={handleUpdate}
                                 disabled={loading}
-                                className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                                className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                             >
                                 {loading ? "Menyimpan..." : "Simpan"}
                             </button>

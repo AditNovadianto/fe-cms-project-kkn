@@ -139,6 +139,20 @@ const Pemerintahan = () => {
         }
     }
 
+    const handleAddItem = () => {
+        setItems([
+            ...items,
+            {
+                name: "",
+                description: "",
+            },
+        ])
+    }
+
+    const handleRemoveItem = (index: number) => {
+        setItems(items.filter((_, i) => i !== index))
+    }
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
 
@@ -245,8 +259,8 @@ const Pemerintahan = () => {
 
             {/* MODAL EDIT DATA */}
             {isEditData && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-                    <div className="bg-white p-6 rounded-lg w-[45%] space-y-4">
+                <div className="fixed inset-0 bg-black/50 flex justify-center p-5">
+                    <div className="bg-white p-6 rounded-lg w-[45%] space-y-4 overflow-y-auto overflow-hidden">
                         <h3 className="font-semibold text-lg">Edit Pemerintahan</h3>
 
                         <input
@@ -267,12 +281,24 @@ const Pemerintahan = () => {
 
                         {items.map((it, idx) => (
                             <div key={idx} className="border rounded p-3 space-y-2">
+                                <div className="flex justify-between items-center">
+                                    <p className="font-semibold text-sm">Item {idx + 1}</p>
+
+                                    <button
+                                        onClick={() => handleRemoveItem(idx)}
+                                        className="cursor-pointer text-red-600 text-xs"
+                                    >
+                                        Hapus
+                                    </button>
+                                </div>
+
                                 <input
                                     value={it.name}
                                     onChange={(e) =>
                                         handleItemChange(idx, "name", e.target.value)
                                     }
                                     className="w-full border rounded px-2 py-1"
+                                    placeholder="Nama Jabatan / Struktur"
                                 />
 
                                 <textarea
@@ -281,9 +307,17 @@ const Pemerintahan = () => {
                                         handleItemChange(idx, "description", e.target.value)
                                     }
                                     className="w-full border rounded px-2 py-1"
+                                    placeholder="Deskripsi"
                                 />
                             </div>
                         ))}
+
+                        <button
+                            onClick={handleAddItem}
+                            className="cursor-pointer w-full text-left text-blue-600 text-sm font-medium"
+                        >
+                            + Tambah Item
+                        </button>
 
                         <div className="flex justify-end gap-2">
                             <button
