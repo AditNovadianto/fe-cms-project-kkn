@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import smallLogo from "../images/icon-logo.png"
 import bigLogo from "../images/logo.png"
 import PetaWilayah from "../components/petaWilayah";
+import VisiMisi from "../components/VisiMisi";
 
 const menus = [
     {
@@ -83,6 +84,7 @@ const Dashboard = () => {
                 {section === "Beranda" && <Beranda />}
                 {section === "Demografi" && <Demografi />}
                 {section === "Peta Wilayah" && <PetaWilayah />}
+                {section === "Visi & Misi" && <VisiMisi />}
             </main>
         </div>
     );

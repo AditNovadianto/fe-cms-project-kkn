@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import React from 'react'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import Dashboard from './pages/Dashboard.tsx'
+import NotFound from './pages/NotFound.tsx'
 
 const router = createBrowserRouter([
   {
@@ -32,10 +33,10 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: '*',
-  //   element: <NotFound />
-  // },
+  {
+    path: '*',
+    element: <NotFound />
+  },
 ], {
   future: {
     v7_startTransition: true,

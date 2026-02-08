@@ -225,14 +225,14 @@ const PetaWilayah = () => {
 
             <button
                 onClick={() => setIsEditImage(true)}
-                className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
+                className="cursor-pointer w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
             >
                 Edit Gambar Peta
             </button>
 
             <button
                 onClick={() => setIsEditData(true)}
-                className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
+                className="cursor-pointer mt-4 w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600"
             >
                 Edit Data Peta
             </button>
@@ -258,7 +258,7 @@ const PetaWilayah = () => {
                         <div className="flex justify-end gap-2 pt-3">
                             <button
                                 onClick={() => setIsEditData(false)}
-                                className="px-4 py-2 border rounded"
+                                className="cursor-pointer px-4 py-2 border rounded"
                             >
                                 Batal
                             </button>
@@ -266,7 +266,7 @@ const PetaWilayah = () => {
                             <button
                                 onClick={handleUpdateData}
                                 disabled={loading}
-                                className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                                className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                             >
                                 {loading ? "Menyimpan..." : "Simpan"}
                             </button>
@@ -315,7 +315,7 @@ const PetaWilayah = () => {
                         <div className="flex justify-end gap-2">
                             <button
                                 onClick={() => setIsEditImage(false)}
-                                className="px-4 py-2 border rounded"
+                                className="cursor-pointer px-4 py-2 border rounded"
                             >
                                 Batal
                             </button>
@@ -323,7 +323,7 @@ const PetaWilayah = () => {
                             <button
                                 onClick={handleUpdateImage}
                                 disabled={loading || !imageFile}
-                                className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
+                                className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
                             >
                                 {loading ? "Menyimpan..." : "Simpan Gambar"}
                             </button>
