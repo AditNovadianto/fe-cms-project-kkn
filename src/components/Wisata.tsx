@@ -80,7 +80,7 @@ const Wisata = () => {
         }
 
         fetchData()
-    }, [isEditData, wisata])
+    }, [isEditData])
 
     const handleChangeWisata = (
         index: number,
@@ -185,6 +185,7 @@ const Wisata = () => {
 
             setImageIndex(null)
             setImageFile(null)
+            setIsEditData(false)
         } catch (err) {
             console.error(err)
         } finally {

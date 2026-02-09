@@ -2,20 +2,13 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { isTokenExpired } from "../utils/auth"
 
-type ImageType = {
+type GalleryItemType = {
     url: string
     alt: string
 }
 
-type SaranaItemType = {
-    title: string
-    description: string
-    image: ImageType
-}
-
-type SaranaPrasaranaType = {
-    description: string
-    saranaPrasarana: SaranaItemType[]
+type GaleriType = {
+    gallery: GalleryItemType[]
     isActive: boolean
     updatedAt: string
 }
@@ -24,14 +17,14 @@ type UserType = {
     id_user: string | number
 }
 
-const SaranaPrasarana = () => {
-    const [, setSaranaPrasarana] = useState<SaranaPrasaranaType | null>(null)
-    const [items, setItems] = useState<SaranaItemType[]>([])
-    const [description, setDescription] = useState("")
-    const [isEdit, setIsEdit] = useState(false)
+const Galeri = () => {
+    const [, setGaleriData] = useState<GaleriType | null>(null)
+    const [gallery, setGallery] = useState<GalleryItemType[]>([])
+    const [isEditData, setIsEditData] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const [imageIndex, setImageIndex] = useState<number | null>(null)
+    const [showImageModal, setShowImageModal] = useState(false)
+    const [, setImageIndex] = useState<number | null>(null)
     const [imageFile, setImageFile] = useState<File | null>(null)
     const [imageAlt, setImageAlt] = useState("")
     const [preview, setPreview] = useState<string | null>(null)
@@ -58,63 +51,36 @@ const SaranaPrasarana = () => {
         const fetchData = async () => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/getSaranaPrasaranaContents`,
+                    `${import.meta.env.VITE_API_URL}/getGalleryContents`,
                     {
-                        method: "GET",
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
                         },
                     }
                 )
 
-                if (!res.ok) throw new Error("Gagal mengambil data")
+                if (!res.ok) throw new Error("Gagal mengambil data galeri")
 
                 const json = await res.json()
-
-                setSaranaPrasarana(json)
-
-                setItems(json.saranaPrasarana || [])
-                setDescription(json.description || "")
+                setGaleriData(json)
+                setGallery(json.gallery || [])
             } catch (err) {
                 console.error(err)
             }
         }
 
         fetchData()
-    }, [isEdit])
+    }, [isEditData])
 
-    const handleChangeItem = (
-        index: number,
-        field: keyof SaranaItemType,
-        value: string
-    ) => {
-        const updated = [...items]
-
-        updated[index] = { ...updated[index], [field]: value }
-        setItems(updated)
-    }
-
-    const handleAddItem = () => {
-        setItems([
-            ...items,
-            {
-                title: "",
-                description: "",
-                image: { url: "", alt: "" },
-            },
-        ])
-    }
-
-    const handleRemoveItem = (index: number) => {
-        setItems(items.filter((_, i) => i !== index))
+    const handleRemoveImage = (index: number) => {
+        setGallery(gallery.filter((_, i) => i !== index))
     }
 
     const handleUpdate = async () => {
         setLoading(true)
-
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/updateSection/10`,
+                `${import.meta.env.VITE_API_URL}/updateSection/11`,
                 {
                     method: "POST",
                     headers: {
@@ -122,8 +88,7 @@ const SaranaPrasarana = () => {
                         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
                     },
                     body: JSON.stringify({
-                        description,
-                        saranaPrasarana: items,
+                        gallery,
                         updatedBy: user?.id_user,
                     }),
                 }
@@ -133,8 +98,8 @@ const SaranaPrasarana = () => {
 
             const updated = await res.json()
 
-            setSaranaPrasarana(updated)
-            setIsEdit(false)
+            setGaleriData(updated)
+            setIsEditData(false)
         } catch (err) {
             console.error(err)
         } finally {
@@ -142,10 +107,19 @@ const SaranaPrasarana = () => {
         }
     }
 
-    const openImageModal = (index: number) => {
+    const openImageModal = (index: number | null) => {
         setImageIndex(index)
-        setPreview(items[index].image.url || null)
-        setImageAlt(items[index].image.alt || "")
+        setPreview(index !== null ? gallery[index]?.url : null)
+        setImageAlt(index !== null ? gallery[index]?.alt : "")
+        setShowImageModal(true)
+    }
+
+    const closeImageModal = () => {
+        setShowImageModal(false)
+        setImageIndex(null)
+        setImageFile(null)
+        setPreview(null)
+        setImageAlt("")
     }
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +132,7 @@ const SaranaPrasarana = () => {
     }
 
     const handleUploadImage = async () => {
-        if (imageIndex === null || !imageFile) return
+        if (!imageFile) return
 
         setLoading(true)
 
@@ -166,10 +140,9 @@ const SaranaPrasarana = () => {
             const fd = new FormData()
             fd.append("image", imageFile)
             fd.append("alt", imageAlt)
-            fd.append("saranaPrasaranaTitle", items[imageIndex].title)
 
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/uploadImageSaranaPrasaranaSection/10`,
+                `${import.meta.env.VITE_API_URL}/uploadGalleryImageSection/11`,
                 {
                     method: "POST",
                     headers: {
@@ -183,10 +156,9 @@ const SaranaPrasarana = () => {
 
             const updated = await res.json()
 
-            setItems(updated.saranaPrasarana)
-            setImageIndex(null)
-            setImageFile(null)
-            setIsEdit(false)
+            setGallery(updated.gallery)
+            closeImageModal()
+            setIsEditData(false)
         } catch (err) {
             console.error(err)
         } finally {
@@ -196,89 +168,64 @@ const SaranaPrasarana = () => {
 
     return (
         <div>
-            {/* LIST */}
-            <div className="space-y-4 mb-6">
-                {items?.map((it, idx) => (
-                    <div key={idx} className="border rounded-lg p-4">
-                        {it.image?.url && (
-                            <img
-                                src={it.image.url}
-                                alt={it.image.alt}
-                                className="w-full h-48 object-cover rounded mb-3"
-                            />
-                        )}
-                        <h4 className="font-semibold">{it.title}</h4>
-                        <p className="text-sm text-gray-600">{it.description}</p>
+            {/* LIST GALERI */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+                {gallery?.map((g, idx) => (
+                    <div key={idx} className="border rounded-lg p-2">
+                        <img
+                            src={g.url}
+                            alt={g.alt}
+                            className="w-full h-40 object-cover rounded"
+                        />
+                        <p className="text-xs text-gray-600 mt-1">{g.alt}</p>
                     </div>
                 ))}
             </div>
 
             <button
-                onClick={() => setIsEdit(true)}
+                onClick={() => setIsEditData(true)}
                 className="cursor-pointer w-full bg-blue-500 text-white py-3 rounded-lg font-semibold"
             >
-                Edit Sarana & Prasarana
+                Edit Galeri
             </button>
 
-            {isEdit && (
+            {/* MODAL EDIT */}
+            {isEditData && (
                 <div className="z-10 fixed inset-0 bg-black/50 flex justify-center p-5">
                     <div className="bg-white w-[55%] p-6 rounded-lg space-y-4 overflow-y-auto">
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="w-full border rounded px-3 py-2"
-                            placeholder="Deskripsi Sarana & Prasarana"
-                        />
+                        <div className="grid grid-cols-3 gap-4">
+                            {gallery?.map((g, idx) => (
+                                <div key={idx} className="border rounded p-2 space-y-2">
+                                    <img
+                                        src={g.url}
+                                        alt={g.alt}
+                                        className="w-full h-32 object-cover rounded"
+                                    />
 
-                        {items?.map((it, idx) => (
-                            <div key={idx} className="border rounded p-4 space-y-2">
-                                <div className="flex justify-between">
-                                    <p className="font-semibold">Item {idx + 1}</p>
-                                    <button
-                                        onClick={() => handleRemoveItem(idx)}
-                                        className="cursor-pointer text-red-600 text-sm"
-                                    >
-                                        Hapus
-                                    </button>
+                                    <p className="text-xs">{g.alt}</p>
+
+                                    <div className="flex justify-between text-sm">
+                                        <button
+                                            onClick={() => handleRemoveImage(idx)}
+                                            className="text-red-600 cursor-pointer"
+                                        >
+                                            Hapus
+                                        </button>
+                                    </div>
                                 </div>
-
-                                <input
-                                    value={it.title}
-                                    onChange={(e) =>
-                                        handleChangeItem(idx, "title", e.target.value)
-                                    }
-                                    className="w-full border rounded px-2 py-1"
-                                    placeholder="Judul"
-                                />
-
-                                <textarea
-                                    value={it.description}
-                                    onChange={(e) =>
-                                        handleChangeItem(idx, "description", e.target.value)
-                                    }
-                                    className="w-full border rounded px-2 py-1"
-                                    placeholder="Deskripsi"
-                                />
-
-                                <button
-                                    onClick={() => openImageModal(idx)}
-                                    className="cursor-pointer text-blue-600 text-sm"
-                                >
-                                    Upload / Ganti Gambar
-                                </button>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
 
                         <button
-                            onClick={handleAddItem}
+                            onClick={() => openImageModal(null)}
                             className="cursor-pointer text-blue-600 text-sm font-medium"
                         >
-                            + Tambah Sarana / Prasarana
+                            + Tambah Gambar
                         </button>
 
                         <div className="flex justify-end gap-2 pt-3">
                             <button
-                                onClick={() => setIsEdit(false)}
+                                onClick={() => setIsEditData(false)}
                                 className="cursor-pointer border px-4 py-2 rounded"
                             >
                                 Batal
@@ -297,7 +244,7 @@ const SaranaPrasarana = () => {
             )}
 
             {/* MODAL IMAGE */}
-            {imageIndex !== null && (
+            {showImageModal && (
                 <div className="z-10 fixed inset-0 bg-black/50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-lg w-[40%] space-y-4">
                         {preview && (
@@ -331,7 +278,7 @@ const SaranaPrasarana = () => {
 
                         <div className="flex justify-end gap-2">
                             <button
-                                onClick={() => setImageIndex(null)}
+                                onClick={closeImageModal}
                                 className="cursor-pointer border px-4 py-2 rounded"
                             >
                                 Batal
@@ -352,4 +299,4 @@ const SaranaPrasarana = () => {
     )
 }
 
-export default SaranaPrasarana
+export default Galeri

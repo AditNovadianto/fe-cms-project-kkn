@@ -3,6 +3,7 @@ import {
     Flag,
     History,
     House,
+    Images,
     Landmark,
     Map,
     MapPin,
@@ -26,6 +27,7 @@ import Wisata from "../components/Wisata";
 import smallLogo from "../images/icon-logo.png";
 import bigLogo from "../images/logo.png";
 import SaranaPrasarana from "../components/SaranaPrasarana";
+import Galeri from "../components/Galeri";
 
 const menus = [
     { name: "Beranda", icon: <House /> },
@@ -38,6 +40,7 @@ const menus = [
     { name: "Sejarah", icon: <History /> },
     { name: "Wisata", icon: <MapPin /> },
     { name: "Sarana & Prasarana", icon: <Building2 /> },
+    { name: "Galeri", icon: <Images /> },
 ];
 
 const Dashboard = () => {
@@ -89,6 +92,7 @@ const Dashboard = () => {
                     {section === "Sejarah" && <Sejarah />}
                     {section === "Wisata" && <Wisata />}
                     {section === "Sarana & Prasarana" && <SaranaPrasarana />}
+                    {section === "Galeri" && <Galeri />}
                 </main>
             </div>
         </div>
