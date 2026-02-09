@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { isTokenExpired } from "../utils/auth"
+import { Check } from "lucide-react"
 
 type ImageType = {
     url: string
@@ -37,6 +38,9 @@ const SaranaPrasarana = () => {
     const [preview, setPreview] = useState<string | null>(null)
 
     const [user, setUser] = useState<UserType | null>(null)
+
+    const [notification, setNotification] = useState<string | null>(null);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -53,6 +57,16 @@ const SaranaPrasarana = () => {
 
         if (u) setUser(JSON.parse(u))
     }, [])
+
+    useEffect(() => {
+        if (!notification) return;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -135,6 +149,7 @@ const SaranaPrasarana = () => {
 
             setSaranaPrasarana(updated)
             setIsEdit(false)
+            setNotification("Data Sarana Prasarana berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -187,6 +202,7 @@ const SaranaPrasarana = () => {
             setImageIndex(null)
             setImageFile(null)
             setIsEdit(false)
+            setNotification("Gambar Sarana Prasarana berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -346,6 +362,14 @@ const SaranaPrasarana = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {notification && (
+                <div className="flex items-center gap-2 fixed bottom-5 right-5 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in">
+                    <Check />
+
+                    <p>{notification}</p>
                 </div>
             )}
         </div>

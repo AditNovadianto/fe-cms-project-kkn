@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { isTokenExpired } from "../utils/auth"
+import { Check } from "lucide-react"
 
 type GroupItemType = {
     name: string
@@ -37,6 +38,7 @@ const Sejarah = () => {
     const [isEdit, setIsEdit] = useState(false)
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<UserType | null>(null)
+    const [notification, setNotification] = useState<string | null>(null);
 
     const navigate = useNavigate()
 
@@ -55,6 +57,16 @@ const Sejarah = () => {
 
         if (item) setUser(JSON.parse(item))
     }, [])
+
+    useEffect(() => {
+        if (!notification) return;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const fetchSejarah = async () => {
@@ -214,6 +226,7 @@ const Sejarah = () => {
 
             setSejarah(updated)
             setIsEdit(false)
+            setNotification("Data Sejarah berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -461,6 +474,14 @@ const Sejarah = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {notification && (
+                <div className="flex items-center gap-2 fixed bottom-5 right-5 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in">
+                    <Check />
+
+                    <p>{notification}</p>
                 </div>
             )}
         </div>

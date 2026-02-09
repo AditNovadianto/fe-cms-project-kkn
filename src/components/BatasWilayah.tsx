@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { isTokenExpired } from "../utils/auth"
 import { useNavigate } from "react-router-dom"
+import { Check } from "lucide-react"
 
 type BatasWilayahType = {
     batasUtara: string
@@ -29,6 +30,8 @@ const BatasWilayah = () => {
 
     const [user, setUser] = useState<UserType | null>(null)
 
+    const [notification, setNotification] = useState<string | null>(null);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -47,6 +50,16 @@ const BatasWilayah = () => {
 
         if (item) setUser(JSON.parse(item))
     }, [])
+
+    useEffect(() => {
+        if (!notification) return;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const getBatasWilayah = async () => {
@@ -91,6 +104,7 @@ const BatasWilayah = () => {
 
     const handleUpdate = async () => {
         setLoading(true)
+
         try {
             const res = await fetch(
                 `${import.meta.env.VITE_API_URL}/updateSection/5`,
@@ -113,6 +127,7 @@ const BatasWilayah = () => {
 
             setBatas(updated)
             setIsEditData(false)
+            setNotification("Data Batas Wilayah berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -195,6 +210,14 @@ const BatasWilayah = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {notification && (
+                <div className="flex items-center gap-2 fixed bottom-5 right-5 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in">
+                    <Check />
+
+                    <p>{notification}</p>
                 </div>
             )}
         </div>

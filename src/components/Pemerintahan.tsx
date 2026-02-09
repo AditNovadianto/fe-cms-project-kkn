@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { isTokenExpired } from "../utils/auth"
+import { Check } from "lucide-react"
 
 type ItemType = {
     name: string
@@ -40,6 +41,9 @@ const Pemerintahan = () => {
 
     const [items, setItems] = useState<ItemType[]>([])
     const [user, setUser] = useState<UserType | null>(null)
+
+    const [notification, setNotification] = useState<string | null>(null);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -57,6 +61,16 @@ const Pemerintahan = () => {
         const item = localStorage.getItem("user")
         if (item) setUser(JSON.parse(item))
     }, [])
+
+    useEffect(() => {
+        if (!notification) return;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -132,6 +146,7 @@ const Pemerintahan = () => {
 
             setPemerintahan(updated)
             setIsEditData(false)
+            setNotification("Data Pemerintahan berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -188,6 +203,7 @@ const Pemerintahan = () => {
 
             setPemerintahan(updated)
             setIsEditImage(false)
+            setNotification("Gambar Pemerintahan berhasil diperbarui");
         } catch (err) {
             console.error(err)
         } finally {
@@ -385,6 +401,14 @@ const Pemerintahan = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {notification && (
+                <div className="flex items-center gap-2 fixed bottom-5 right-5 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in">
+                    <Check />
+
+                    <p>{notification}</p>
                 </div>
             )}
         </div>

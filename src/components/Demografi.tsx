@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { isTokenExpired } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { Check } from "lucide-react";
 
 type DemografiType = {
     jumlahPenduduk: string;
@@ -26,6 +27,7 @@ const Demografi = () => {
         perempuan: "",
         kepalaKeluarga: "",
     });
+    const [notification, setNotification] = useState<string | null>(null);
 
     const navigate = useNavigate();
 
@@ -45,6 +47,16 @@ const Demografi = () => {
 
         if (item) setUser(JSON.parse(item));
     }, []);
+
+    useEffect(() => {
+        if (!notification) return;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const getDemografiContents = async () => {
@@ -109,6 +121,7 @@ const Demografi = () => {
             const updated = await response.json();
             setDemografi(updated);
             setIsEditData(false);
+            setNotification("Data Demografi berhasil diperbarui");
         } catch (err) {
             console.error(err);
         } finally {
@@ -212,6 +225,14 @@ const Demografi = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {notification && (
+                <div className="flex items-center gap-2 fixed bottom-5 right-5 z-50 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg animate-fade-in">
+                    <Check />
+
+                    <p>{notification}</p>
                 </div>
             )}
         </div>
