@@ -181,9 +181,8 @@ const VisiMisi = () => {
                 Edit Visi & Misi
             </button>
 
-            {/* ========== MODAL EDIT ========== */}
             {isEditData && (
-                <div className="fixed inset-0 bg-black/50 flex p-5 justify-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex p-5 justify-center">
                     <div className="bg-white p-6 rounded-lg w-[50%] overflow-y-auto overflow-hidden space-y-4">
                         <h3 className="text-lg font-semibold">Edit Visi & Misi</h3>
 

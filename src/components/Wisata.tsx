@@ -219,7 +219,7 @@ const Wisata = () => {
             </button>
 
             {isEditData && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center p-5">
+                <div className="z-10 fixed inset-0 bg-black/50 flex justify-center p-5">
                     <div className="bg-white w-[55%] p-6 rounded-lg space-y-4 overflow-y-auto">
                         <textarea
                             value={description}
@@ -296,7 +296,7 @@ const Wisata = () => {
 
             {/* MODAL IMAGE */}
             {imageIndex !== null && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-lg w-[40%] space-y-4">
                         {preview && (
                             <img

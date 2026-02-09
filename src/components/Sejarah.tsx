@@ -242,7 +242,7 @@ const Sejarah = () => {
             </button>
 
             {isEdit && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center p-6">
+                <div className="z-10 fixed inset-0 bg-black/50 flex justify-center p-6">
                     <div className="bg-white p-6 rounded-lg w-[60%] space-y-6 overflow-y-auto">
                         {timeline.map((t, tIdx) => (
                             <div key={tIdx} className="border p-4 rounded space-y-3">

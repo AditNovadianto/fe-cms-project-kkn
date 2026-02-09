@@ -230,7 +230,7 @@ const Beranda = () => {
             <button onClick={() => setIsEditData(true)} className="mt-5 w-full bg-blue-500 rounded-lg px-5 py-3 cursor-pointer text-white font-semibold hover:bg-blue-600 transition-all">Edit Data</button>
 
             {isEditData && (
-                <div className="bg-black/50 fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center">
+                <div className="z-10 bg-black/50 fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center">
                     <div className="bg-white p-5 rounded-lg w-[50%] flex flex-col gap-5">
                         <div>
                             <p className="font-semibold">Title</p>
@@ -302,7 +302,7 @@ const Beranda = () => {
             )}
 
             {isEditImage && (
-                <div className="bg-black/50 fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center z-50">
+                <div className="z-10 bg-black/50 fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center">
                     <div className="bg-white p-5 rounded-lg w-[40%] flex flex-col gap-5">
                         <h2 className="text-lg font-semibold">Edit Gambar Beranda</h2>
 

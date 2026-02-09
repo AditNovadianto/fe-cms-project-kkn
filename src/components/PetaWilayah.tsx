@@ -236,7 +236,7 @@ const PetaWilayah = () => {
             </button>
 
             {isEditData && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg w-[45%] space-y-4">
                         <h3 className="text-lg font-semibold">Edit Data Peta Wilayah</h3>
 
@@ -274,7 +274,7 @@ const PetaWilayah = () => {
             )}
 
             {isEditImage && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg w-[40%] space-y-4">
                         <h3 className="text-lg font-semibold">Edit Gambar Peta</h3>
 

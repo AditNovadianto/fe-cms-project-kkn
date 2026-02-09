@@ -163,7 +163,7 @@ const Potensi = () => {
             </button>
 
             {isEdit && (
-                <div className="fixed inset-0 bg-black/50 flex p-5 justify-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex p-5 justify-center">
                     <div className="bg-white p-6 rounded-lg w-[45%] overflow-y-auto overflow-hidden space-y-4">
                         <h3 className="text-lg font-semibold">Edit Potensi Desa</h3>
 

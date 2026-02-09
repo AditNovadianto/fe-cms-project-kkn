@@ -257,9 +257,8 @@ const Pemerintahan = () => {
                 Edit Data Pemerintahan
             </button>
 
-            {/* MODAL EDIT DATA */}
             {isEditData && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center p-5">
+                <div className="z-10 fixed inset-0 bg-black/50 flex justify-center p-5">
                     <div className="bg-white p-6 rounded-lg w-[45%] space-y-4 overflow-y-auto overflow-hidden">
                         <h3 className="font-semibold text-lg">Edit Pemerintahan</h3>
 
@@ -339,9 +338,8 @@ const Pemerintahan = () => {
                 </div>
             )}
 
-            {/* MODAL IMAGE */}
             {isEditImage && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                <div className="z-10 fixed inset-0 bg-black/50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg w-[40%] space-y-4">
                         <img
                             src={preview || ""}
