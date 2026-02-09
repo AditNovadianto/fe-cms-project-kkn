@@ -7,15 +7,15 @@ type ImageType = {
     alt: string
 }
 
-type WisataItemType = {
+type SaranaItemType = {
     title: string
     description: string
     image: ImageType
 }
 
-type WisataType = {
+type SaranaPrasaranaType = {
     description: string
-    wisata: WisataItemType[]
+    saranaPrasarana: SaranaItemType[]
     isActive: boolean
     updatedAt: string
 }
@@ -24,11 +24,11 @@ type UserType = {
     id_user: string | number
 }
 
-const Wisata = () => {
-    const [, setWisataData] = useState<WisataType | null>(null)
-    const [wisata, setWisata] = useState<WisataItemType[]>([])
+const SaranaPrasarana = () => {
+    const [, setSaranaPrasarana] = useState<SaranaPrasaranaType | null>(null)
+    const [items, setItems] = useState<SaranaItemType[]>([])
     const [description, setDescription] = useState("")
-    const [isEditData, setIsEditData] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const [imageIndex, setImageIndex] = useState<number | null>(null)
@@ -58,21 +58,22 @@ const Wisata = () => {
         const fetchData = async () => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/getWisataContents`,
+                    `${import.meta.env.VITE_API_URL}/getSaranaPrasaranaContents`,
                     {
+                        method: "GET",
                         headers: {
                             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
                         },
                     }
                 )
 
-                if (!res.ok) throw new Error("Gagal mengambil data wisata")
+                if (!res.ok) throw new Error("Gagal mengambil data")
 
                 const json = await res.json()
 
-                setWisataData(json)
+                setSaranaPrasarana(json)
 
-                setWisata(json.wisata || [])
+                setItems(json.saranaPrasarana || [])
                 setDescription(json.description || "")
             } catch (err) {
                 console.error(err)
@@ -80,22 +81,22 @@ const Wisata = () => {
         }
 
         fetchData()
-    }, [isEditData, wisata])
+    }, [isEdit, items])
 
-    const handleChangeWisata = (
+    const handleChangeItem = (
         index: number,
-        field: keyof WisataItemType,
+        field: keyof SaranaItemType,
         value: string
     ) => {
-        const updated = [...wisata]
+        const updated = [...items]
 
         updated[index] = { ...updated[index], [field]: value }
-        setWisata(updated)
+        setItems(updated)
     }
 
-    const handleAddWisata = () => {
-        setWisata([
-            ...wisata,
+    const handleAddItem = () => {
+        setItems([
+            ...items,
             {
                 title: "",
                 description: "",
@@ -104,8 +105,8 @@ const Wisata = () => {
         ])
     }
 
-    const handleRemoveWisata = (index: number) => {
-        setWisata(wisata.filter((_, i) => i !== index))
+    const handleRemoveItem = (index: number) => {
+        setItems(items.filter((_, i) => i !== index))
     }
 
     const handleUpdate = async () => {
@@ -113,7 +114,7 @@ const Wisata = () => {
 
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/updateSection/9`,
+                `${import.meta.env.VITE_API_URL}/updateSection/10`,
                 {
                     method: "POST",
                     headers: {
@@ -122,7 +123,7 @@ const Wisata = () => {
                     },
                     body: JSON.stringify({
                         description,
-                        wisata,
+                        saranaPrasarana: items,
                         updatedBy: user?.id_user,
                     }),
                 }
@@ -132,8 +133,8 @@ const Wisata = () => {
 
             const updated = await res.json()
 
-            setWisataData(updated)
-            setIsEditData(false)
+            setSaranaPrasarana(updated)
+            setIsEdit(false)
         } catch (err) {
             console.error(err)
         } finally {
@@ -143,12 +144,13 @@ const Wisata = () => {
 
     const openImageModal = (index: number) => {
         setImageIndex(index)
-        setPreview(wisata[index].image.url || null)
-        setImageAlt(wisata[index].image.alt || "")
+        setPreview(items[index].image.url || null)
+        setImageAlt(items[index].image.alt || "")
     }
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
+
         if (!file) return
 
         setImageFile(file)
@@ -164,10 +166,10 @@ const Wisata = () => {
             const fd = new FormData()
             fd.append("image", imageFile)
             fd.append("alt", imageAlt)
-            fd.append("wisataTitle", wisata[imageIndex].title)
+            fd.append("saranaPrasaranaTitle", items[imageIndex].title)
 
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/uploadImageWisataSection/9`,
+                `${import.meta.env.VITE_API_URL}/uploadImageSaranaPrasaranaSection/10`,
                 {
                     method: "POST",
                     headers: {
@@ -181,8 +183,7 @@ const Wisata = () => {
 
             const updated = await res.json()
 
-            setWisata(updated.wisata)
-
+            setItems(updated.saranaPrasarana)
             setImageIndex(null)
             setImageFile(null)
         } catch (err) {
@@ -196,44 +197,44 @@ const Wisata = () => {
         <div>
             {/* LIST */}
             <div className="space-y-4 mb-6">
-                {wisata?.map((w, idx) => (
+                {items?.map((it, idx) => (
                     <div key={idx} className="border rounded-lg p-4">
-                        {w.image?.url && (
+                        {it.image?.url && (
                             <img
-                                src={w.image.url}
-                                alt={w.image.alt}
+                                src={it.image.url}
+                                alt={it.image.alt}
                                 className="w-full h-48 object-cover rounded mb-3"
                             />
                         )}
-                        <h4 className="font-semibold">{w.title}</h4>
-                        <p className="text-sm text-gray-600">{w.description}</p>
+                        <h4 className="font-semibold">{it.title}</h4>
+                        <p className="text-sm text-gray-600">{it.description}</p>
                     </div>
                 ))}
             </div>
 
             <button
-                onClick={() => setIsEditData(true)}
+                onClick={() => setIsEdit(true)}
                 className="cursor-pointer w-full bg-blue-500 text-white py-3 rounded-lg font-semibold"
             >
-                Edit Wisata
+                Edit Sarana & Prasarana
             </button>
 
-            {isEditData && (
+            {isEdit && (
                 <div className="z-10 fixed inset-0 bg-black/50 flex justify-center p-5">
                     <div className="bg-white w-[55%] p-6 rounded-lg space-y-4 overflow-y-auto">
                         <textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="w-full border rounded px-3 py-2"
-                            placeholder="Deskripsi Wisata"
+                            placeholder="Deskripsi Sarana & Prasarana"
                         />
 
-                        {wisata?.map((w, idx) => (
+                        {items?.map((it, idx) => (
                             <div key={idx} className="border rounded p-4 space-y-2">
                                 <div className="flex justify-between">
-                                    <p className="font-semibold">Wisata {idx + 1}</p>
+                                    <p className="font-semibold">Item {idx + 1}</p>
                                     <button
-                                        onClick={() => handleRemoveWisata(idx)}
+                                        onClick={() => handleRemoveItem(idx)}
                                         className="cursor-pointer text-red-600 text-sm"
                                     >
                                         Hapus
@@ -241,18 +242,18 @@ const Wisata = () => {
                                 </div>
 
                                 <input
-                                    value={w.title}
+                                    value={it.title}
                                     onChange={(e) =>
-                                        handleChangeWisata(idx, "title", e.target.value)
+                                        handleChangeItem(idx, "title", e.target.value)
                                     }
                                     className="w-full border rounded px-2 py-1"
-                                    placeholder="Judul Wisata"
+                                    placeholder="Judul"
                                 />
 
                                 <textarea
-                                    value={w.description}
+                                    value={it.description}
                                     onChange={(e) =>
-                                        handleChangeWisata(idx, "description", e.target.value)
+                                        handleChangeItem(idx, "description", e.target.value)
                                     }
                                     className="w-full border rounded px-2 py-1"
                                     placeholder="Deskripsi"
@@ -268,15 +269,15 @@ const Wisata = () => {
                         ))}
 
                         <button
-                            onClick={handleAddWisata}
+                            onClick={handleAddItem}
                             className="cursor-pointer text-blue-600 text-sm font-medium"
                         >
-                            + Tambah Wisata
+                            + Tambah Sarana / Prasarana
                         </button>
 
                         <div className="flex justify-end gap-2 pt-3">
                             <button
-                                onClick={() => setIsEditData(false)}
+                                onClick={() => setIsEdit(false)}
                                 className="cursor-pointer border px-4 py-2 rounded"
                             >
                                 Batal
@@ -350,4 +351,4 @@ const Wisata = () => {
     )
 }
 
-export default Wisata
+export default SaranaPrasarana

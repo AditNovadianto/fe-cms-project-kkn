@@ -1,4 +1,5 @@
 import {
+    Building2,
     Flag,
     History,
     House,
@@ -24,6 +25,7 @@ import Wisata from "../components/Wisata";
 
 import smallLogo from "../images/icon-logo.png";
 import bigLogo from "../images/logo.png";
+import SaranaPrasarana from "../components/SaranaPrasarana";
 
 const menus = [
     { name: "Beranda", icon: <House /> },
@@ -35,6 +37,7 @@ const menus = [
     { name: "Potensi", icon: <TrendingUp /> },
     { name: "Sejarah", icon: <History /> },
     { name: "Wisata", icon: <MapPin /> },
+    { name: "Sarana & Prasarana", icon: <Building2 /> },
 ];
 
 const Dashboard = () => {
@@ -42,7 +45,7 @@ const Dashboard = () => {
 
     return (
         <div className="w-full h-screen flex">
-            {/* SIDEBAR (STICKY) */}
+            {/* SIDEBAR */}
             <aside className="sticky top-0 z-5 group bg-white border-r transition-all duration-300 ease-in-out w-16 hover:w-64 h-screen flex flex-col gap-5 p-3">
                 <button className="relative h-12 flex items-center justify-center">
                     <img
@@ -61,9 +64,7 @@ const Dashboard = () => {
                     <button
                         key={menu.name}
                         onClick={() => setSection(menu.name)}
-                        className={`flex items-center gap-3 px-2 hover:px-3 py-2 rounded transition-all
-              hover:bg-gray-100
-              ${section === menu.name ? "bg-gray-200 font-semibold" : ""}`}
+                        className={`cursor-pointer flex items-center gap-3 px-2 hover:px-3 py-2 rounded transition-all hover:bg-gray-100 ${section === menu.name ? "bg-gray-200 font-semibold" : ""}`}
                     >
                         <span>{menu.icon}</span>
                         <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -75,10 +76,8 @@ const Dashboard = () => {
 
             {/* CONTENT WRAPPER */}
             <div className="flex-1 flex flex-col h-screen p-5">
-                {/* NAVBAR (STICKY) */}
                 <Navbar section={section} />
 
-                {/* CONTENT (SCROLL DI SINI SAJA) */}
                 <main className="flex-1 overflow-y-auto p-6 bg-gray-50 rounded-lg">
                     {section === "Beranda" && <Beranda />}
                     {section === "Demografi" && <Demografi />}
@@ -89,6 +88,7 @@ const Dashboard = () => {
                     {section === "Potensi" && <Potensi />}
                     {section === "Sejarah" && <Sejarah />}
                     {section === "Wisata" && <Wisata />}
+                    {section === "Sarana & Prasarana" && <SaranaPrasarana />}
                 </main>
             </div>
         </div>
