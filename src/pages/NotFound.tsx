@@ -22,7 +22,7 @@ const NotFound = () => {
 
                 <button
                     onClick={() => navigate(-1)}
-                    className="inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    className="cursor-pointer inline-flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                     <ArrowLeft size={18} />
                     Kembali

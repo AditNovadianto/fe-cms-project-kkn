@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/logo.png"
+import { Eye, EyeClosed } from "lucide-react";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false)
 
     const navigate = useNavigate();
 
@@ -42,8 +45,10 @@ const SignIn = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            <h1 className="text-3xl font-bold text-blue-600 mb-6">CMS Allakuang Landingpage</h1>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
+            <img className="w-75" src={logo} alt="" />
+
+            <h1 className="text-2xl font-bold text-blue-600 mb-6 mt-5">CMS Allakuang Landingpage</h1>
 
             <form
                 onSubmit={handleSubmit}
@@ -74,28 +79,36 @@ const SignIn = () => {
                     />
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-2">
                     <label className="block text-sm font-medium mb-1">
                         Password
                     </label>
 
-                    <input
-                        type="password"
-                        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-                        placeholder="••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute top-2 right-5 cursor-pointer">{!showPassword ? <Eye /> : <EyeClosed />}</button>
+                    </div>
                 </div>
+
+                <Link to={"/forgot-password"} className="block text-right text-blue-800 font-semibold">Lupa Password?</Link>
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="cursor-pointer w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed mt-5"
                 >
                     {loading ? "Signing in..." : "Sign In"}
                 </button>
+
+                <p className="mt-5 text-center">Don't Have an Account? <Link to={"/sign-up"} className="font-semibold underline text-blue-800">Sign Up</Link></p>
             </form>
         </div>
     );

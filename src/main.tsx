@@ -6,24 +6,27 @@ import React from 'react'
 import ProtectedRoute from './components/ProtectedRoute.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import NotFound from './pages/NotFound.tsx'
+import ForgotPassword from './pages/ForgotPassword.tsx'
+import SignUp from './pages/SignUp.tsx'
+import ResetPassword from './pages/ResetPassword.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
   },
-  // {
-  //   path: '/signUp',
-  //   element: <SignUp />
-  // },
-  // {
-  //   path: '/forgot-password',
-  //   element: <ForgotPassword />
-  // },
-  // {
-  //   path: '/signInCustomer',
-  //   element: <SignInCustomer />
-  // },
+  {
+    path: '/sign-up',
+    element: <SignUp />
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />
+  },
+  {
+    path: '/reset-password/:token',
+    element: <ResetPassword />
+  },
   {
     element: <ProtectedRoute />,
     children: [
