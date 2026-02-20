@@ -9,8 +9,8 @@ services:
       - "80"
     restart: unless-stopped
     networks:
-      - private_net
+      - private-net
 
 networks:
-  private_net:
+  private-net:
     external: true
