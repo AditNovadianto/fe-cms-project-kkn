@@ -3,13 +3,15 @@ services:
     build:
       context: .
       args:
-        - VITE_API_URL:http://localhost:3000
+        - VITE_API_URL=${VITE_API_URL}
     container_name: fe-cms-project-kkn
     expose:
       - "80"
     restart: unless-stopped
     networks:
       - private-net
+    env_file:
+      - .env
 
 networks:
   private-net:
